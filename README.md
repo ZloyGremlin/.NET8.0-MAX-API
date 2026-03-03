@@ -58,4 +58,4 @@ await api.Messages.SendMessageAsync(
 
 ## Лицензия
 
-Укажите лицензию (MIT/Apache-2.0/…).
+Apache-2.0

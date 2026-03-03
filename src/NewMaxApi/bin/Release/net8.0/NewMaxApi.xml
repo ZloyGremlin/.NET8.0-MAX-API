@@ -1,0 +1,675 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>NewMaxApi</name>
+    </assembly>
+    <members>
+        <member name="T:NewMaxApi.MaxApiProvider">
+            <summary>
+            Предоставляет доступ к сервисам API MAX.
+            </summary>
+        </member>
+        <member name="F:NewMaxApi.MaxApiProvider.DefaultApiTimeout">
+            <summary>
+            Таймаут по умолчанию для API-запросов.
+            </summary>
+        </member>
+        <member name="M:NewMaxApi.MaxApiProvider.#ctor(System.String,System.Net.Http.HttpClient,System.Nullable{System.TimeSpan})">
+            <summary>
+            Инициализирует новый экземпляр MaxApiProvider.
+            </summary>
+            <param name="accessToken">Токен доступа.</param>
+            <param name="httpClient">
+            Внешний HttpClient (опционально). Если не передан — будет создан новый.
+            </param>
+            <param name="requestTimeout">
+            Таймаут запросов API. Если передан внешний httpClient, таймаут будет применен к нему тоже.
+            </param>
+        </member>
+        <member name="M:NewMaxApi.Providers.BaseProvider.CreateHttpClientWithoutCookies(System.Nullable{System.TimeSpan})">
+            <summary>
+            Создает HttpClient без cookies и с настраиваемым таймаутом.
+            </summary>
+        </member>
+        <member name="T:NewMaxApi.Providers.BotsProvider">
+            <summary>
+            Предоставляет методы взаимодействия с конечными точками, связанными с ботами, в API MAX.
+            </summary>
+            <param name="accessToken">Токен доступа, используемый для аутентификации API.</param>
+            <param name="httpClient"> <see cref="T:System.Net.Http.HttpClient"/> экземпляр, используемый для запросов API</param>
+        </member>
+        <member name="M:NewMaxApi.Providers.BotsProvider.#ctor(System.String,System.Net.Http.HttpClient)">
+            <summary>
+            Предоставляет методы взаимодействия с конечными точками, связанными с ботами, в API MAX.
+            </summary>
+            <param name="accessToken">Токен доступа, используемый для аутентификации API.</param>
+            <param name="httpClient"> <see cref="T:System.Net.Http.HttpClient"/> экземпляр, используемый для запросов API</param>
+        </member>
+        <member name="M:NewMaxApi.Providers.BotsProvider.GetBotInfoAsync(System.Threading.CancellationToken)">
+            <summary>
+            Возвращает информацию о текущем боте, идентифицированном с помощью токена доступа. Метод возвращает идентификатор бота, его имя и аватар (если есть).
+            </summary>
+            <param name="cancellationToken">Токен отмены, который можно использовать для отмены операции.</param>
+        </member>
+        <member name="M:NewMaxApi.Providers.BotsProvider.ChangeBotInfoAsync(NewMaxApi.Requests.Bots.ChangeBotRequest,System.Threading.CancellationToken)">
+            <summary>
+            Позволяет изменить информацию о текущем боте. Заполните только те поля, которые необходимо обновить. Все остальные останутся без изменений.
+            </summary>
+            <param name="body">Тело запроса.</param>
+            <param name="cancellationToken">Токен отмены, который можно использовать для отмены операции.</param>
+        </member>
+        <member name="T:NewMaxApi.Providers.UploadsProvider">
+            <summary>
+            Предоставляет методы для взаимодействия с конечными точками, связанными с загрузкой, в API MAX.
+            </summary>
+            <param name="accessToken">Токен доступа, используемый для аутентификации API.</param>
+            <param name="httpClient">Экземпляр <see cref="T:System.Net.Http.HttpClient"/>, используемый для запросов API.</param>
+        </member>
+        <member name="M:NewMaxApi.Providers.UploadsProvider.GetUploadUrlAsync(NewMaxApi.Entities.UploadType,System.Threading.CancellationToken)">
+            <summary>
+            Запрашивает URL-адрес для загрузки файла определённого типа.
+            </summary>
+            <param name="type">Тип загружаемого файла.</param>
+            <param name="cancellationToken">Токен отмены, который можно использовать для отмены операции.</param>
+        </member>
+        <member name="M:NewMaxApi.Providers.UploadsProvider.UploadFileAsync(System.String,System.Byte[],System.String,System.Threading.CancellationToken)">
+            <summary>
+            Загружает файл по указанному URL-адресу загрузки.
+            </summary>
+            <param name="uploadUrl">URL-адрес, полученный из <see cref="M:NewMaxApi.Providers.UploadsProvider.GetUploadUrlAsync(NewMaxApi.Entities.UploadType,System.Threading.CancellationToken)"/> для загрузки файла.</param>
+            <param name="filePath">Локальный путь к загружаемому файлу.</param>
+            <param name="cancellationToken">Токен отмены, который можно использовать для отмены операции.</param>
+        </member>
+        <member name="M:NewMaxApi.Providers.UploadsProvider.UploadImageAsync(System.String,System.Byte[],System.String,System.Threading.CancellationToken)">
+            <summary>
+            Загружает фото по указанному URL-адресу загрузки.
+            </summary>
+            <param name="uploadUrl">URL-адрес, полученный из <see cref="M:NewMaxApi.Providers.UploadsProvider.GetUploadUrlAsync(NewMaxApi.Entities.UploadType,System.Threading.CancellationToken)"/> для загрузки файла.</param>
+            <param name="filePath">Локальный путь к загружаемому файлу.</param>
+            <param name="cancellationToken">Токен отмены, который можно использовать для отмены операции.</param>
+        </member>
+        <member name="T:NewMaxApi.ChatsProvider">
+            <summary>
+            Предоставляет методы взаимодействия с конечными точками чата в API MAX.
+            </summary>
+            <param name="accessToken">Токен доступа, используемый для аутентификации API.</param>
+            <param name="httpClient"> <see cref="T:System.Net.Http.HttpClient"/> экземпляр, используемый для запросов API.</param>
+        </member>
+        <member name="M:NewMaxApi.ChatsProvider.#ctor(System.String,System.Net.Http.HttpClient)">
+            <summary>
+            Предоставляет методы взаимодействия с конечными точками чата в API MAX.
+            </summary>
+            <param name="accessToken">Токен доступа, используемый для аутентификации API.</param>
+            <param name="httpClient"> <see cref="T:System.Net.Http.HttpClient"/> экземпляр, используемый для запросов API.</param>
+        </member>
+        <member name="M:NewMaxApi.ChatsProvider.GetAllChatsAsync(System.Int32,System.Nullable{System.Int64},System.Threading.CancellationToken)">
+            <summary>
+            Возвращает информацию о чатах, в которых участвовал бот. Результат включает список чатов и маркер перехода на следующую страницу.
+            </summary>
+            <param name="count">Количество запрошенных чатов.</param>
+            <param name="marker">Указатель на следующую страницу данных. Для первой страницы передайте null.</param>
+            <param name="cancellationToken">Токен отмены, который можно использовать для отмены операции.</param>
+        </member>
+        <member name="M:NewMaxApi.ChatsProvider.GetChatAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Возвращает информацию о чате по его публичной ссылке или информацию о беседе с пользователем по его имени пользователя.
+            </summary>
+            <param name="chatLink">Публичная ссылка на чат или имя пользователя.</param>
+            <param name="cancellationToken">Токен отмены, который можно использовать для отмены операции.</param>
+        </member>
+        <member name="M:NewMaxApi.ChatsProvider.GetChatAsync(System.Int64,System.Threading.CancellationToken)">
+            <summary>
+            Возвращает информацию о чате по его идентификатору.
+            </summary>
+            <param name="chatId">Идентификатор запрошенного чата.</param>
+            <param name="cancellationToken">Токен отмены, который можно использовать для отмены операции.</param>
+        </member>
+        <member name="M:NewMaxApi.ChatsProvider.ChangeChatInfoAsync(System.Int64,NewMaxApi.Requests.Chats.ChangeChatRequest,System.Threading.CancellationToken)">
+            <summary>
+            Позволяет редактировать информацию чата, включая имя, значок и закрепленное сообщение.
+            </summary>
+            <param name="chatId">Идентификатор запрошенного чата.</param>
+            <param name="body">Тело запроса.</param>
+            <param name="cancellationToken">Токен отмены, который можно использовать для отмены операции.</param>
+        </member>
+        <member name="M:NewMaxApi.ChatsProvider.DeleteChatAsync(System.Int64,System.Threading.CancellationToken)">
+            <summary>
+            Удаляет чат для всех участников.
+            </summary>
+            <param name="chatId">Идентификатор запрошенного чата.</param>
+            <param name="cancellationToken">Токен отмены, который можно использовать для отмены операции.</param>
+        </member>
+        <member name="M:NewMaxApi.ChatsProvider.SendActionAsync(System.Int64,NewMaxApi.Requests.Chats.SenderAction,System.Threading.CancellationToken)">
+            <summary>
+            Позволяет отправлять в чат действия бота, такие как «набор текста» или «отправка фотографий».
+            </summary>
+            <param name="chatId">Идентификатор запрошенного чата.</param>
+            <param name="action">Действие, отправленное участникам чата.</param>
+            <param name="cancellationToken">Токен отмены, который можно использовать для отмены операции.</param>
+        </member>
+        <member name="M:NewMaxApi.ChatsProvider.GetPinnedMessageAsync(System.Int64,System.Threading.CancellationToken)">
+            <summary>
+            Возвращает закрепленное сообщение в чате.
+            </summary>
+            <param name="chatId">Идентификатор запрошенного чата.</param>
+            <param name="cancellationToken">Токен отмены, который можно использовать для отмены операции.</param>
+        </member>
+        <member name="M:NewMaxApi.ChatsProvider.PinMessageAsync(System.Int64,NewMaxApi.Requests.Chats.PinMessageRequest,System.Threading.CancellationToken)">
+            <summary>
+            Закрепите сообщение в чате.
+            </summary>
+            <param name="chatId">Идентификатор запрошенного чата.</param>
+            <param name="body">Тело запроса.</param>
+            <param name="cancellationToken">Токен отмены, который можно использовать для отмены операции.</param>
+        </member>
+        <member name="M:NewMaxApi.ChatsProvider.DeletePinnedMessageAsync(System.Int64,System.Threading.CancellationToken)">
+            <summary>
+            Удаляет закрепленное сообщение в чате.
+            </summary>
+            <param name="chatId">Идентификатор запрошенного чата.</param>
+            <param name="cancellationToken">Токен отмены, который можно использовать для отмены операции.</param>
+        </member>
+        <member name="M:NewMaxApi.ChatsProvider.GetChatMembershipAsync(System.Int64,System.Threading.CancellationToken)">
+            <summary>
+            Возвращает информацию о текущем членстве бота в чате.
+            </summary>
+            <param name="chatId">Идентификатор запрошенного чата.</param>
+            <param name="cancellationToken">Токен отмены, который можно использовать для отмены операции.</param>
+        </member>
+        <member name="M:NewMaxApi.ChatsProvider.RemoveBotAsync(System.Int64,System.Threading.CancellationToken)">
+            <summary>
+            Удаляет бота из участников чата.
+            </summary>
+            <param name="chatId">Идентификатор запрошенного чата.</param>
+            <param name="cancellationToken">Токен отмены, который можно использовать для отмены операции.</param>
+        </member>
+        <member name="M:NewMaxApi.ChatsProvider.GetAdminsAsync(System.Int64,System.Threading.CancellationToken)">
+            <summary>
+            Возвращает всех администраторов чата. Бот должен быть администратором в запрашиваемом чате.
+            </summary>
+            <param name="chatId">Идентификатор запрошенного чата.</param>
+            <param name="cancellationToken">Токен отмены, который можно использовать для отмены операции.</param>
+        </member>
+        <member name="M:NewMaxApi.ChatsProvider.AppointAdminAsync(System.Int64,NewMaxApi.Requests.Chats.AppointAdminRequest,System.Threading.CancellationToken)">
+            <summary>
+            Назначает администратора чата. Возвращает значение <c>true</c>, если все администраторы добавлены.
+            </summary>
+            <param name="chatId">Идентификатор запрошенного чата.</param>
+            <param name="body">Тело запроса.</param>
+            <param name="cancellationToken">Токен отмены, который можно использовать для отмены операции.</param>
+        </member>
+        <member name="M:NewMaxApi.ChatsProvider.RevokeAdminRightsAsync(System.Int64,System.Int64,System.Threading.CancellationToken)">
+            <summary>
+            Отменяет права администратора пользователя в чате, лишая его административных привилегий.
+            </summary>
+            <param name="chatId">Идентификатор запрошенного чата.</param>
+            <param name="userId">Идентификатор пользователя.</param>
+            <param name="cancellationToken">Токен отмены, который можно использовать для отмены операции.</param>
+        </member>
+        <member name="M:NewMaxApi.ChatsProvider.GetMembersAsync(System.Int64,System.Int64[],System.Nullable{System.Int64},System.Nullable{System.Int32},System.Threading.CancellationToken)">
+            <summary>
+            Возвращает пользователей, участвующих в чате.
+            </summary>
+            <remarks>
+            При передаче параметра <paramref name="userIds"/> параметры <paramref name="count"/> и <paramref name="marker"/> игнорируются.
+            </remarks>
+            <param name="chatId">Идентификатор запрошенного чата.</param>
+            <param name="userIds">Список идентификаторов пользователей, для которых необходимо получить членство. При передаче этого параметра параметры <paramref name="count"/> и <paramref name="marker"/> игнорируются.</param>
+            <param name="marker">Указатель на следующую страницу данных.</param>
+            <param name="count">Количество участников, которых необходимо вернуть.</param>
+            <param name="cancellationToken">Токен отмены, который можно использовать для отмены операции.</param>
+        </member>
+        <member name="M:NewMaxApi.ChatsProvider.AddParticipantsAsync(System.Int64,System.Int64[],System.Threading.CancellationToken)">
+            <summary>
+            Добавляет участников в чат. Для этого могут потребоваться дополнительные права.
+            </summary>
+            <param name="chatId">Идентификатор запрошенного чата.</param>
+            <param name="userIds">Идентификаторы пользователей.</param>
+            <param name="cancellationToken">Токен отмены, который можно использовать для отмены операции.</param>
+        </member>
+        <member name="M:NewMaxApi.ChatsProvider.DeleteParticipantAsync(System.Int64,System.Int64,System.Boolean,System.Threading.CancellationToken)">
+            <summary>
+            Удаляет участника из чата. Для этого могут потребоваться дополнительные права.
+            </summary>
+            <remarks>
+            Если параметр <paramref name="block"/> установлен в значение <c>true</c>, пользователь будет заблокирован в чате. Используется только для чатов с публичной или приватной ссылкой. Во всех остальных случаях игнорируется.
+            </remarks>
+            <param name="chatId">Идентификатор запрошенного чата.</param>
+            <param name="userId">ID пользователя.</param>
+            <param name="block">Если установлено в значение <c>true</c>, пользователь будет заблокирован в чате. Используется только для чатов с публичной или приватной ссылкой. Во всех остальных случаях игнорируется.</param>
+            <param name="cancellationToken">Токен отмены, который можно использовать для отмены операции.</param>
+        </member>
+        <member name="M:NewMaxApi.ChatsProvider.ChatLinkRegex">
+            <remarks>
+            Pattern:<br/>
+            <code>@?[a-zA-Z]+[a-zA-Z0-9-_]*</code><br/>
+            Explanation:<br/>
+            <code>
+            ○ Match '@' atomically, optionally.<br/>
+            ○ Match a character in the set [A-Za-z] greedily at least once.<br/>
+            ○ Match a character in the set [-0-9A-Z_a-z] atomically any number of times.<br/>
+            </code>
+            </remarks>
+        </member>
+        <member name="M:NewMaxApi.ChatsProvider.ChatIdRegex">
+            <remarks>
+            Pattern:<br/>
+            <code>\\-?\\d+</code><br/>
+            Explanation:<br/>
+            <code>
+            ○ Match '-' atomically, optionally.<br/>
+            ○ Match a Unicode digit atomically at least once.<br/>
+            </code>
+            </remarks>
+        </member>
+        <member name="T:NewMaxApi.MessagesProvider">
+            <summary>
+            Предоставляет методы для взаимодействия с конечными точками, связанными с сообщениями, в API MAX.
+            </summary>
+            <param name="accessToken">Токен доступа, используемый для аутентификации API.</param>
+            <param name="httpClient">Экземпляр <see cref="T:System.Net.Http.HttpClient"/>, используемый для запросов API.</param>
+        </member>
+        <member name="M:NewMaxApi.MessagesProvider.#ctor(System.String,System.Net.Http.HttpClient)">
+            <summary>
+            Предоставляет методы для взаимодействия с конечными точками, связанными с сообщениями, в API MAX.
+            </summary>
+            <param name="accessToken">Токен доступа, используемый для аутентификации API.</param>
+            <param name="httpClient">Экземпляр <see cref="T:System.Net.Http.HttpClient"/>, используемый для запросов API.</param>
+        </member>
+        <member name="M:NewMaxApi.MessagesProvider.GetMessagesAsync(System.Int64,System.String[],System.Nullable{System.Int64},System.Nullable{System.Int64},System.Nullable{System.Int32},System.Threading.CancellationToken)">
+            <summary>
+            Возвращает сообщения чата: страницу с результатами и маркером, указывающим на следующую страницу.
+            </summary>
+            <remarks>
+            Сообщения возвращаются в обратном порядке, то есть последние сообщения чата будут первыми в массиве. Поэтому, если вы используете параметры <paramref name="from"/> и <paramref name="to"/>, то <paramref name="to"/> должно быть меньше <paramref name="from"/>.
+            </remarks>
+            <param name="chatId">Идентификатор чата для получения сообщений из определенного чата.</param>
+            <param name="messageIds">Список идентификаторов сообщений для получения.</param>
+            <param name="from">Время начала для запрошенных сообщений (в формате временной метки Unix).</param>
+            <param name="to">Время окончания для запрошенных сообщений (в формате временной метки Unix).</param>
+            <param name="count">Максимальное количество сообщений в ответе.</param>
+            <param name="cancellationToken">Токен отмены, который можно использовать для отмены операции.</param>
+        </member>
+        <member name="M:NewMaxApi.MessagesProvider.SendMessageAsync(NewMaxApi.Requests.Messages.SendMessageRequest,System.Nullable{System.Int64},System.Nullable{System.Int64},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
+            <summary>
+            Отправляет сообщение в чат.
+            </summary>
+            <param name="body">Тело запроса.</param>
+            <param name="userId">Если вы хотите отправить сообщение пользователю, укажите его ID.</param>
+            <param name="chatId">Если сообщение отправляется в чат, укажите его ID.</param>
+            <param name="disableLinkPreview">Если <c>false</c>, сервер не будет генерировать предварительный просмотр ссылок в тексте сообщения.</param>
+            <param name="cancellationToken">Токен отмены, который можно использовать для отмены операции.</param>
+        </member>
+        <member name="M:NewMaxApi.MessagesProvider.EditMessageAsync(System.String,NewMaxApi.Requests.Messages.SendMessageRequest,System.Threading.CancellationToken)">
+            <summary>
+            Редактирует сообщение в чате.
+            </summary>
+            <remarks>
+            Если поле вложений равно <c>null</c>, вложения текущего сообщения не изменяются. Если в этом поле передан пустой список, все вложения будут удалены.
+            </remarks>
+            <param name="messageId">Идентификатор редактируемого сообщения.</param>
+            <param name="body">Тело запроса.</param>
+            <param name="cancellationToken">Токен отмены, который можно использовать для отмены операции.</param>
+        </member>
+        <member name="M:NewMaxApi.MessagesProvider.DeleteMessageAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Удаляет сообщение в диалоге или чате, если у бота есть разрешение на удаление сообщений.
+            </summary>
+            <param name="messageId">Идентификатор удаляемого сообщения.</param>
+            <param name="cancellationToken">Токен отмены, который можно использовать для отмены операции.</param>
+        </member>
+        <member name="M:NewMaxApi.MessagesProvider.GetMessageAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Возвращает одно сообщение по его идентификатору.
+            </summary>
+            <param name="messageId">Идентификатор сообщения (mid) для получения одного сообщения в чате.</param>
+            <param name="cancellationToken">Токен отмены, который можно использовать для отмены операции.</param>
+        </member>
+        <member name="M:NewMaxApi.MessagesProvider.GetVideoInfoAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Возвращает подробную информацию о прикреплённом видео. URL-адреса воспроизведения и дополнительные метаданные.
+            </summary>
+            <param name="videoToken">Токен прикрепленного видео.</param>
+            <param name="cancellationToken">Токен отмены, который можно использовать для отмены операции.</param>
+        </member>
+        <member name="M:NewMaxApi.MessagesProvider.SendAnswerAsync(System.String,NewMaxApi.Requests.Messages.SendAnswerRequest,System.Threading.CancellationToken)">
+            <summary>
+            Этот метод используется для отправки ответа после нажатия пользователем кнопки. Ответ может представлять собой обновленное сообщение и/или однократное уведомление пользователю.
+            </summary>
+            <param name="callbackId">Идентификатор кнопки, которую нажал пользователь. Бот получает этот идентификатор в рамках обновления с типом message_callback.</param>
+            <param name="body">Тело запроса.</param>
+            <param name="cancellationToken">Токен отмены, который можно использовать для отмены операции.</param>
+        </member>
+        <member name="M:NewMaxApi.MessagesProvider.MessageRegex">
+            <remarks>
+            Pattern:<br/>
+            <code>[a-zA-Z0-9_\\-]+</code><br/>
+            Explanation:<br/>
+            <code>
+            ○ Match a character in the set [-0-9A-Z_a-z] atomically at least once.<br/>
+            </code>
+            </remarks>
+        </member>
+        <member name="M:NewMaxApi.MessagesProvider.CallbackRegex">
+            <remarks>
+            Pattern:<br/>
+            <code>^(?!\\s*$).+</code><br/>
+            Explanation:<br/>
+            <code>
+            ○ Match if at the beginning of the string.<br/>
+            ○ Zero-width negative lookahead.<br/>
+                ○ Match a whitespace character greedily any number of times.<br/>
+                ○ Match if at the end of the string or if before an ending newline.<br/>
+            ○ Match a character other than '\n' atomically at least once.<br/>
+            </code>
+            </remarks>
+        </member>
+        <member name="T:NewMaxApi.SubscriptionsProvider">
+            <summary>
+            Предоставляет методы для взаимодействия с конечными точками, связанными с подпиской, в API MAX.
+            </summary>
+            <param name="accessToken">Токен доступа, используемый для аутентификации API.</param>
+            <param name="httpClient">Экземпляр <see cref="T:System.Net.Http.HttpClient"/>, используемый для запросов API.</param>
+        </member>
+        <member name="M:NewMaxApi.SubscriptionsProvider.#ctor(System.String,System.Net.Http.HttpClient)">
+            <summary>
+            Предоставляет методы для взаимодействия с конечными точками, связанными с подпиской, в API MAX.
+            </summary>
+            <param name="accessToken">Токен доступа, используемый для аутентификации API.</param>
+            <param name="httpClient">Экземпляр <see cref="T:System.Net.Http.HttpClient"/>, используемый для запросов API.</param>
+        </member>
+        <member name="M:NewMaxApi.SubscriptionsProvider.GetSubscriptionsAsync(System.Threading.CancellationToken)">
+            <summary>
+            Если ваш бот получает данные через WebHook, этот метод возвращает список всех подписок.
+            </summary>
+            <param name="cancellationToken">Токен отмены, который можно использовать для отмены операции.</param>
+        </member>
+        <member name="M:NewMaxApi.SubscriptionsProvider.SubscribeAsync(NewMaxApi.Requests.Subscriptions.SubscribeRequest,System.Threading.CancellationToken)">
+            <summary>
+            Подписывает бота на получение обновлений через WebHook. После вызова этого метода бот будет получать уведомления о новых событиях чата по указанному URL-адресу.
+            </summary>
+            <remarks>
+            Ваш сервер должен прослушивать один из следующих портов: 80, 8080, 443, 8443, 16384-32383.
+            </remarks>
+            <param name="body">Тело запроса.</param>
+            <param name="cancellationToken">Токен отмены, который можно использовать для отмены операции.</param>
+        </member>
+        <member name="M:NewMaxApi.SubscriptionsProvider.UnsubscribeAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Отписывает бота от получения обновлений через WebHook. После вызова этого метода бот перестаёт получать уведомления о новых событиях, и доступна доставка уведомлений через API с длинным опросом.
+            </summary>
+            <param name="url">URL для удаления из подписки на WebHook.</param>
+            <param name="cancellationToken">Токен отмены, который можно использовать для отмены операции.</param>
+        </member>
+        <member name="M:NewMaxApi.SubscriptionsProvider.GetUpdatesAsync(System.Int32,System.Int32,System.Nullable{System.Int64},System.String[],System.Threading.CancellationToken)">
+            <summary>
+            Этот метод можно использовать для получения обновлений, если ваш бот не подписан на WebHook. Метод использует длинный опрос.
+            </summary>
+            <remarks>
+            Каждое обновление имеет свой порядковый номер. Свойство <paramref name="marker"/> в ответе указывает на следующее ожидаемое обновление. Все предыдущие обновления считаются выполненными после передачи параметра <paramref name="marker"/>. Если параметр <paramref name="marker"/> не передан, бот получит все обновления, произошедшие с момента последнего подтверждения.
+            </remarks>
+            <param name="limit">Максимальное количество получаемых обновлений.</param>
+            <param name="timeout">Таймаут в секундах для длинного опроса.</param>
+            <param name="marker">Если параметр передан, бот получит обновления, которые ещё не были получены. Если он не передан, он будет получать все новые обновления.</param>
+            <param name="types">Список типов обновлений, которые бот хочет получать.</param>
+            <param name="cancellationToken">Токен отмены, который можно использовать для отмены операции.</param>
+        </member>
+        <member name="M:NewMaxApi.SubscriptionsProvider.SecretRegex">
+            <remarks>
+            Pattern:<br/>
+            <code>^[a-zA-Z0-9_-]{5,256}$</code><br/>
+            Explanation:<br/>
+            <code>
+            ○ Match if at the beginning of the string.<br/>
+            ○ Match a character in the set [-0-9A-Z_a-z] atomically at least 5 and at most 256 times.<br/>
+            ○ Match if at the end of the string or if before an ending newline.<br/>
+            </code>
+            </remarks>
+        </member>
+        <member name="T:NewMaxApi.Resources.Error">
+            <summary>
+              Класс ресурса со строгой типизацией для поиска локализованных строк и т.д.
+            </summary>
+        </member>
+        <member name="P:NewMaxApi.Resources.Error.ResourceManager">
+            <summary>
+              Возвращает кэшированный экземпляр ResourceManager, использованный этим классом.
+            </summary>
+        </member>
+        <member name="P:NewMaxApi.Resources.Error.Culture">
+            <summary>
+              Перезаписывает свойство CurrentUICulture текущего потока для всех
+              обращений к ресурсу с помощью этого класса ресурса со строгой типизацией.
+            </summary>
+        </member>
+        <member name="P:NewMaxApi.Resources.Error.CallbackRegexError">
+            <summary>
+              Ищет локализованную строку, похожую на The string should not be empty or consist only of spaces..
+            </summary>
+        </member>
+        <member name="P:NewMaxApi.Resources.Error.ChatIdRegexError">
+            <summary>
+              Ищет локализованную строку, похожую на The string must be an integer that can start with a minus sign (for negative numbers) or without a sign (for positive numbers), after the sign (if any) only numbers (0-9) must go, other characters (letters, spaces, dots, commas, etc.) are not allowed..
+            </summary>
+        </member>
+        <member name="P:NewMaxApi.Resources.Error.ChatLinkRegexError">
+            <summary>
+              Ищет локализованную строку, похожую на The string must begin with an optional @ character, followed by at least one letter (Latin). Letters, numbers, hyphens (-), or underscores (_) can be used after the first letter..
+            </summary>
+        </member>
+        <member name="P:NewMaxApi.Resources.Error.FromToError">
+            <summary>
+              Ищет локализованную строку, похожую на The {0} parameter must be greater than the {1} parameter..
+            </summary>
+        </member>
+        <member name="P:NewMaxApi.Resources.Error.MessageRegexError">
+            <summary>
+              Ищет локализованную строку, похожую на The string must contain only Latin letters, numbers, underscores (_) or hyphens (-), and must not be shorter than one character..
+            </summary>
+        </member>
+        <member name="P:NewMaxApi.Resources.Error.ParameterNotSpecified">
+            <summary>
+              Ищет локализованную строку, похожую на The {0} parameter not specified..
+            </summary>
+        </member>
+        <member name="P:NewMaxApi.Resources.Error.RangeError">
+            <summary>
+              Ищет локализованную строку, похожую на The {0} parameter must be in the range from {1} to {2}..
+            </summary>
+        </member>
+        <member name="P:NewMaxApi.Resources.Error.SecretRegexError">
+            <summary>
+              Ищет локализованную строку, похожую на The string must consist only of Latin letters (A-Z, a-z), numbers (0-9), hyphens (-) and underscores (_), must be between 5 and 256 characters long, and must not contain spaces or special characters. (!@#$%^&amp;*), Cyrillic or other characters other than those allowed..
+            </summary>
+        </member>
+        <member name="P:NewMaxApi.Resources.Error.SendingRequestError">
+            <summary>
+              Ищет локализованную строку, похожую на An error occurred when sending the request. Reason: &apos;{0}&apos;. Status code: {1}..
+            </summary>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.ChatLinkRegex_0">
+            <summary>Custom <see cref="T:System.Text.RegularExpressions.Regex"/>-derived type for the ChatLinkRegex method.</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.ChatLinkRegex_0.Instance">
+            <summary>Cached, thread-safe singleton instance.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.ChatLinkRegex_0.#ctor">
+            <summary>Initializes the instance.</summary>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.ChatLinkRegex_0.RunnerFactory">
+            <summary>Provides a factory for creating <see cref="T:System.Text.RegularExpressions.RegexRunner"/> instances to be used by methods on <see cref="T:System.Text.RegularExpressions.Regex"/>.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.ChatLinkRegex_0.RunnerFactory.CreateInstance">
+            <summary>Creates an instance of a <see cref="T:System.Text.RegularExpressions.RegexRunner"/> used by methods on <see cref="T:System.Text.RegularExpressions.Regex"/>.</summary>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.ChatLinkRegex_0.RunnerFactory.Runner">
+            <summary>Provides the runner that contains the custom logic implementing the specified regular expression.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.ChatLinkRegex_0.RunnerFactory.Runner.Scan(System.ReadOnlySpan{System.Char})">
+            <summary>Scan the <paramref name="inputSpan"/> starting from base.runtextstart for the next match.</summary>
+            <param name="inputSpan">The text being scanned by the regular expression.</param>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.ChatLinkRegex_0.RunnerFactory.Runner.TryFindNextPossibleStartingPosition(System.ReadOnlySpan{System.Char})">
+            <summary>Search <paramref name="inputSpan"/> starting from base.runtextpos for the next location a match could possibly start.</summary>
+            <param name="inputSpan">The text being scanned by the regular expression.</param>
+            <returns>true if a possible match was found; false if no more matches are possible.</returns>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.ChatLinkRegex_0.RunnerFactory.Runner.TryMatchAtCurrentPosition(System.ReadOnlySpan{System.Char})">
+            <summary>Determine whether <paramref name="inputSpan"/> at base.runtextpos is a match for the regular expression.</summary>
+            <param name="inputSpan">The text being scanned by the regular expression.</param>
+            <returns>true if the regular expression matches at the current position; otherwise, false.</returns>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.ChatIdRegex_1">
+            <summary>Custom <see cref="T:System.Text.RegularExpressions.Regex"/>-derived type for the ChatIdRegex method.</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.ChatIdRegex_1.Instance">
+            <summary>Cached, thread-safe singleton instance.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.ChatIdRegex_1.#ctor">
+            <summary>Initializes the instance.</summary>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.ChatIdRegex_1.RunnerFactory">
+            <summary>Provides a factory for creating <see cref="T:System.Text.RegularExpressions.RegexRunner"/> instances to be used by methods on <see cref="T:System.Text.RegularExpressions.Regex"/>.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.ChatIdRegex_1.RunnerFactory.CreateInstance">
+            <summary>Creates an instance of a <see cref="T:System.Text.RegularExpressions.RegexRunner"/> used by methods on <see cref="T:System.Text.RegularExpressions.Regex"/>.</summary>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.ChatIdRegex_1.RunnerFactory.Runner">
+            <summary>Provides the runner that contains the custom logic implementing the specified regular expression.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.ChatIdRegex_1.RunnerFactory.Runner.Scan(System.ReadOnlySpan{System.Char})">
+            <summary>Scan the <paramref name="inputSpan"/> starting from base.runtextstart for the next match.</summary>
+            <param name="inputSpan">The text being scanned by the regular expression.</param>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.ChatIdRegex_1.RunnerFactory.Runner.TryFindNextPossibleStartingPosition(System.ReadOnlySpan{System.Char})">
+            <summary>Search <paramref name="inputSpan"/> starting from base.runtextpos for the next location a match could possibly start.</summary>
+            <param name="inputSpan">The text being scanned by the regular expression.</param>
+            <returns>true if a possible match was found; false if no more matches are possible.</returns>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.ChatIdRegex_1.RunnerFactory.Runner.TryMatchAtCurrentPosition(System.ReadOnlySpan{System.Char})">
+            <summary>Determine whether <paramref name="inputSpan"/> at base.runtextpos is a match for the regular expression.</summary>
+            <param name="inputSpan">The text being scanned by the regular expression.</param>
+            <returns>true if the regular expression matches at the current position; otherwise, false.</returns>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.MessageRegex_2">
+            <summary>Custom <see cref="T:System.Text.RegularExpressions.Regex"/>-derived type for the MessageRegex method.</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.MessageRegex_2.Instance">
+            <summary>Cached, thread-safe singleton instance.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.MessageRegex_2.#ctor">
+            <summary>Initializes the instance.</summary>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.MessageRegex_2.RunnerFactory">
+            <summary>Provides a factory for creating <see cref="T:System.Text.RegularExpressions.RegexRunner"/> instances to be used by methods on <see cref="T:System.Text.RegularExpressions.Regex"/>.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.MessageRegex_2.RunnerFactory.CreateInstance">
+            <summary>Creates an instance of a <see cref="T:System.Text.RegularExpressions.RegexRunner"/> used by methods on <see cref="T:System.Text.RegularExpressions.Regex"/>.</summary>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.MessageRegex_2.RunnerFactory.Runner">
+            <summary>Provides the runner that contains the custom logic implementing the specified regular expression.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.MessageRegex_2.RunnerFactory.Runner.Scan(System.ReadOnlySpan{System.Char})">
+            <summary>Scan the <paramref name="inputSpan"/> starting from base.runtextstart for the next match.</summary>
+            <param name="inputSpan">The text being scanned by the regular expression.</param>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.MessageRegex_2.RunnerFactory.Runner.TryFindNextPossibleStartingPosition(System.ReadOnlySpan{System.Char})">
+            <summary>Search <paramref name="inputSpan"/> starting from base.runtextpos for the next location a match could possibly start.</summary>
+            <param name="inputSpan">The text being scanned by the regular expression.</param>
+            <returns>true if a possible match was found; false if no more matches are possible.</returns>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.MessageRegex_2.RunnerFactory.Runner.TryMatchAtCurrentPosition(System.ReadOnlySpan{System.Char})">
+            <summary>Determine whether <paramref name="inputSpan"/> at base.runtextpos is a match for the regular expression.</summary>
+            <param name="inputSpan">The text being scanned by the regular expression.</param>
+            <returns>true if the regular expression matches at the current position; otherwise, false.</returns>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.CallbackRegex_3">
+            <summary>Custom <see cref="T:System.Text.RegularExpressions.Regex"/>-derived type for the CallbackRegex method.</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.CallbackRegex_3.Instance">
+            <summary>Cached, thread-safe singleton instance.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.CallbackRegex_3.#ctor">
+            <summary>Initializes the instance.</summary>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.CallbackRegex_3.RunnerFactory">
+            <summary>Provides a factory for creating <see cref="T:System.Text.RegularExpressions.RegexRunner"/> instances to be used by methods on <see cref="T:System.Text.RegularExpressions.Regex"/>.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.CallbackRegex_3.RunnerFactory.CreateInstance">
+            <summary>Creates an instance of a <see cref="T:System.Text.RegularExpressions.RegexRunner"/> used by methods on <see cref="T:System.Text.RegularExpressions.Regex"/>.</summary>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.CallbackRegex_3.RunnerFactory.Runner">
+            <summary>Provides the runner that contains the custom logic implementing the specified regular expression.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.CallbackRegex_3.RunnerFactory.Runner.Scan(System.ReadOnlySpan{System.Char})">
+            <summary>Scan the <paramref name="inputSpan"/> starting from base.runtextstart for the next match.</summary>
+            <param name="inputSpan">The text being scanned by the regular expression.</param>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.CallbackRegex_3.RunnerFactory.Runner.TryFindNextPossibleStartingPosition(System.ReadOnlySpan{System.Char})">
+            <summary>Search <paramref name="inputSpan"/> starting from base.runtextpos for the next location a match could possibly start.</summary>
+            <param name="inputSpan">The text being scanned by the regular expression.</param>
+            <returns>true if a possible match was found; false if no more matches are possible.</returns>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.CallbackRegex_3.RunnerFactory.Runner.TryMatchAtCurrentPosition(System.ReadOnlySpan{System.Char})">
+            <summary>Determine whether <paramref name="inputSpan"/> at base.runtextpos is a match for the regular expression.</summary>
+            <param name="inputSpan">The text being scanned by the regular expression.</param>
+            <returns>true if the regular expression matches at the current position; otherwise, false.</returns>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.SecretRegex_4">
+            <summary>Custom <see cref="T:System.Text.RegularExpressions.Regex"/>-derived type for the SecretRegex method.</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.SecretRegex_4.Instance">
+            <summary>Cached, thread-safe singleton instance.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.SecretRegex_4.#ctor">
+            <summary>Initializes the instance.</summary>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.SecretRegex_4.RunnerFactory">
+            <summary>Provides a factory for creating <see cref="T:System.Text.RegularExpressions.RegexRunner"/> instances to be used by methods on <see cref="T:System.Text.RegularExpressions.Regex"/>.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.SecretRegex_4.RunnerFactory.CreateInstance">
+            <summary>Creates an instance of a <see cref="T:System.Text.RegularExpressions.RegexRunner"/> used by methods on <see cref="T:System.Text.RegularExpressions.Regex"/>.</summary>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.SecretRegex_4.RunnerFactory.Runner">
+            <summary>Provides the runner that contains the custom logic implementing the specified regular expression.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.SecretRegex_4.RunnerFactory.Runner.Scan(System.ReadOnlySpan{System.Char})">
+            <summary>Scan the <paramref name="inputSpan"/> starting from base.runtextstart for the next match.</summary>
+            <param name="inputSpan">The text being scanned by the regular expression.</param>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.SecretRegex_4.RunnerFactory.Runner.TryFindNextPossibleStartingPosition(System.ReadOnlySpan{System.Char})">
+            <summary>Search <paramref name="inputSpan"/> starting from base.runtextpos for the next location a match could possibly start.</summary>
+            <param name="inputSpan">The text being scanned by the regular expression.</param>
+            <returns>true if a possible match was found; false if no more matches are possible.</returns>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.SecretRegex_4.RunnerFactory.Runner.TryMatchAtCurrentPosition(System.ReadOnlySpan{System.Char})">
+            <summary>Determine whether <paramref name="inputSpan"/> at base.runtextpos is a match for the regular expression.</summary>
+            <param name="inputSpan">The text being scanned by the regular expression.</param>
+            <returns>true if the regular expression matches at the current position; otherwise, false.</returns>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.Utilities">
+            <summary>Helper methods used by generated <see cref="T:System.Text.RegularExpressions.Regex"/>-derived implementations.</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_defaultTimeout">
+            <summary>Default timeout value set in <see cref="T:System.AppContext"/>, or <see cref="F:System.Text.RegularExpressions.Regex.InfiniteMatchTimeout"/> if none was set.</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_hasTimeout">
+            <summary>Whether <see cref="F:System.Text.RegularExpressions.Generated.Utilities.s_defaultTimeout"/> is non-infinite.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.Utilities.IndexOfNonAsciiOrAny_98419BE3621AA428E830AB4D6EA3C2C1C6A30876EB80F52A9F0FC428C4ECA47E(System.ReadOnlySpan{System.Char})">
+            <summary>Finds the next index of any character that matches a character in the set [-\d].</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_asciiLetters">
+            <summary>Supports searching for characters in or not in "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_ascii_20FF03FEFFFF87FEFFFF07">
+            <summary>Supports searching for characters in or not in "-0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz".</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_ascii_FFFFFF07FEFFFF07">
+            <summary>Supports searching for characters in or not in "@ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_ascii_FFFFFFFFFFDF00FCFFFFFFFFFFFFFFFF">
+            <summary>Supports searching for characters in or not in "\0\u0001\u0002\u0003\u0004\u0005\u0006\a\b\t\n\v\f\r\u000e\u000f\u0010\u0011\u0012\u0013\u0014\u0015\u0016\u0017\u0018\u0019\u001a\u001b\u001c\u001d\u001e\u001f !\"#$%&amp;'()*+,./:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\u007f".</summary>
+        </member>
+    </members>
+</doc>

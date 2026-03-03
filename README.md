@@ -35,6 +35,7 @@
     <HintPath>libs/NewMaxApi/NewMaxApi.dll</HintPath>
   </Reference>
 </ItemGroup>
+```
 
 ### Вариант 2 — собрать из исходников
 Требования: .NET SDK 8.0+
@@ -42,6 +43,7 @@
 ```bash
 dotnet restore
 dotnet build -c Release
+```
 
 ## Быстрый старт
 
